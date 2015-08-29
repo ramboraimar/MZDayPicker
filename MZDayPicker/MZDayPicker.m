@@ -317,7 +317,7 @@ static BOOL NSRangeContainsRow (NSRange range, NSInteger row) {
 
 - (instancetype)initWithFrame:(CGRect)frame dayCellSize:(CGSize)cellSize dayCellFooterHeight:(CGFloat)footerHeight
 {
-    if (self = [self initWithFrame:frame dayCellSize:CGSizeMake(kDefaultCellWidth, kDefaultCellHeight) dayCellFooterHeight:kDefaultCellFooterHeight month:1 year:1970]) {
+    if (self = [self initWithFrame:frame dayCellSize:CGSizeMake(kDefaultCellWidth, kDefaultCellHeight) dayCellFooterHeight:footerHeight month:1 year:1970]) {
         
     }
     return self;
