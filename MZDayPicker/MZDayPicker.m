@@ -475,11 +475,11 @@ static BOOL NSRangeContainsRow (NSRange range, NSInteger row) {
             
             if (distance < self.dayCellSize.width && distance > -self.dayCellSize.width) {
                 
-                cell.dayLabel.font = [cell.dayLabel.font fontWithSize:self.dayLabelFontSize + self.dayLabelZoomScale * zoomStep];
-                [cell setBottomBorderSlideHeight:zoomStep];
+                CGFloat scale = defaultScale + ((1 - defaultScale) * zoomStep);
+				cell.dayLabel.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale);
                 
             } else {
-                cell.dayLabel.font = [cell.dayLabel.font fontWithSize:self.dayLabelFontSize];
+                cell.dayLabel.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, defaultScale, defaultScale);
                 [cell setBottomBorderSlideHeight:0.0];
             }
             
@@ -599,17 +599,18 @@ static BOOL NSRangeContainsRow (NSRange range, NSInteger row) {
     }
     
     [self setShadowForCell:cell];
-    
+    cell.dayLabel.font = [cell.dayLabel.font fontWithSize:self.dayLabelFontSize+self.dayLabelZoomScale];
     if (indexPath.row == _currentIndex.row) {
         cell.containerView.backgroundColor = self.backgroundPickerColor;
         cell.containerView.layer.shadowOpacity = 1.0;
         
         [cell setBottomBorderSlideHeight:1.0];
         
-        cell.dayLabel.font = [cell.dayLabel.font fontWithSize:self.dayLabelFontSize+self.dayLabelZoomScale];
+        cell.dayLabel.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
         
     } else {
-        cell.dayLabel.font = [cell.dayLabel.font fontWithSize:self.dayLabelFontSize];
+        CGFloat defaultScale = self.dayLabelFontSize / (self.dayLabelFontSize + self.dayLabelZoomScale);
+		cell.dayLabel.layer.affineTransform = CGAffineTransformScale(CGAffineTransformIdentity, defaultScale, defaultScale);
         
         cell.containerView.backgroundColor = [UIColor clearColor];
         [cell setBottomBorderSlideHeight:0];
